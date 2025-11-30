@@ -1,0 +1,30 @@
+@startuml
+skinparam shadowing false
+skinparam packageStyle rect
+
+' --- Рівень зберігання даних ---
+node "Database Server" as DB {
+    database "AirQuality_DB\nTables: AirQuality, Recommendations\nModel: Relational" as DB_Air
+    database "Safety_DB\nTables: Hazards, Alerts\nModel: Relational" as DB_Safety
+    database "Communication_DB\nCollections: Chats, Logs\nModel: JSON" as DB_Comm
+}
+
+' --- Рівень бізнес-логіки ---
+node "Application Server" as App {
+    component "Business Logic Module\nОбробка сповіщень, рекомендацій та даних користувача"
+}
+
+' --- Рівень представлення ---
+node "User Devices" as Client {
+    component "Mobile / Web App\nІнтерфейс користувача для сповіщень та професійного спілкування"
+}
+
+' --- Зв'язки передачі даних ---
+Client --> App : REST API / JSON
+App --> DB_Air : CRUD
+App --> DB_Safety : CRUD
+App --> DB_Comm : CRUD
+
+' --- Зв'язки передачі управління ---
+Client ..> App : запити користувача (якість повітря, безпека, комунікації)
+@enduml
