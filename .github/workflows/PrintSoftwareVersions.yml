@@ -36,5 +36,6 @@ jobs:
       - name: Print MySQL Version
         run: mysql -V
 
-      - name: Print MongoDB Version
-        run: mongod --version
+# - name: Print MongoDB Version
+#   run: mongod --version
+
