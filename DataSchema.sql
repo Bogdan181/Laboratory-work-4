@@ -91,45 +91,44 @@ CREATE TABLE safety_measure (
 
 
 CREATE TABLE safety_stats (
- stats_id SERIAL PRIMARY KEY,
- user_id INTEGER,
- actions_count INTEGER DEFAULT 0 CHECK (actions_count >= 0),
- recorded_date DATE NOT NULL,
- FOREIGN KEY (user_id) REFERENCES app_user(user_id) ON DELETE CASCADE
+    stats_id SERIAL PRIMARY KEY,
+    user_id INTEGER,
+    actions_count INTEGER DEFAULT 0 CHECK (actions_count >= 0),
+    recorded_date DATE NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES app_user (user_id) ON DELETE CASCADE
 );
 
 CREATE TABLE chat (
- chat_id SERIAL PRIMARY KEY,
-8
- name VARCHAR(200) NOT NULL
+    chat_id SERIAL PRIMARY KEY,
+    chat_name VARCHAR(200) NOT NULL
 );
 ALTER TABLE chat
- ADD CONSTRAINT chk_chat_name
- CHECK (name ~ '^[A-Za-zА-Яа-я0-9\-\s]{1,200}$');
+ADD CONSTRAINT chk_chat_name
+CHECK (name ~ '^[A-Za-zА-Яа-я0-9\-\s]{1,200}$');
 CREATE TABLE message (
- msg_id SERIAL PRIMARY KEY,
- chat_id INTEGER,
- user_id INTEGER,
- text TEXT NOT NULL,
- sent_at TIMESTAMP NOT NULL DEFAULT NOW(),
- FOREIGN KEY (chat_id) REFERENCES chat(chat_id) ON DELETE CASCADE,
- FOREIGN KEY (user_id) REFERENCES app_user(user_id) ON DELETE SET NULL
+    msg_id SERIAL PRIMARY KEY,
+    chat_id INTEGER,
+    user_id INTEGER,
+    message_text TEXT NOT NULL,
+    sent_at TIMESTAMP NOT NULL DEFAULT NOW(),
+    FOREIGN KEY (chat_id) REFERENCES chat (chat_id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES app_user (user_id) ON DELETE SET NULL
 );
 
 CREATE TABLE project (
- project_id SERIAL PRIMARY KEY,
- name VARCHAR(200) NOT NULL,
- description TEXT
+    project_id SERIAL PRIMARY KEY,
+    project_name VARCHAR(200) NOT NULL,
+    description TEXT
 );
 
 CREATE TABLE document (
- doc_id SERIAL PRIMARY KEY,
- project_id INTEGER,
- user_id INTEGER,
- title VARCHAR(300) NOT NULL,
- created_at DATE NOT NULL DEFAULT CURRENT_DATE,
- content TEXT,
- FOREIGN KEY (project_id) REFERENCES project(project_id) ON DELETE SET
-NULL,
- FOREIGN KEY (user_id) REFERENCES app_user(user_id) ON DELETE SET NULL
+    doc_id SERIAL PRIMARY KEY,
+    project_id INTEGER,
+    user_id INTEGER,
+    title VARCHAR(300) NOT NULL,
+    created_at DATE NOT NULL DEFAULT CURRENT_DATE,
+    document_content TEXT,
+    FOREIGN KEY (project_id) REFERENCES project (project_id) ON DELETE SET
+    NULL,
+    FOREIGN KEY (user_id) REFERENCES app_user (user_id) ON DELETE SET NULL
 );
